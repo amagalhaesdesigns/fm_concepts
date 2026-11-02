@@ -75,6 +75,7 @@ Atenção:
 - Para estudar FM inicialmente, usar representação em **banda-base complexa** ou portadora reduzida compatível com Fs.
 - Para uma portadora real em frequência intermediária, escolher Fs considerando a maior frequência representada e a margem dos filtros.
 - A taxa e o formato de amostra do FPGA serão definidos conforme placa, clock, interfaces e recursos disponíveis.
+- A taxa de amostragem do aúdio deverá ser 48kHz.
 
 ## 5. Cronograma de desenvolvimento
 
