@@ -31,6 +31,14 @@ x2 = cos(2*pi*f2*t);
 x3 = cos(2*pi*f3*t);
 x_alias = cos(2*pi*f_alias*t);
 
+% Eixo temporal de alta resolucao usado apenas para desenhar a trajetoria
+% continua das senoides. As amostras do teste continuam definidas por Fs.
+Fs_visual = 1000000;
+t_visual = 0:1/Fs_visual:duration;
+x1_visual = cos(2*pi*f1*t_visual);
+x2_visual = cos(2*pi*f2*t_visual);
+x3_visual = cos(2*pi*f3*t_visual);
+
 %% Informacoes numericas
 fprintf('Frequencia de amostragem: %.0f Hz\n', Fs);
 fprintf('Periodo de amostragem: %.6f us\n', Ts*1e6);
@@ -43,31 +51,46 @@ fprintf('Alias esperado para 30 kHz: %.0f Hz\n', f_alias);
 figure('Name', 'Amostragem e aliasing', 'NumberTitle', 'off');
 
 subplot(3,1,1);
-stem(t*1000, x1, '.');
+h_signal = plot(t_visual*1000, x1_visual, 'r-', 'LineWidth', 1.5);
+hold on;
+h_samples = stem(t*1000, x1, 'b.');
+hold off;
 grid on;
 xlim([0 2]);
 ylim([-1.2 1.2]);
 title('Senoide de 1 kHz amostrada a 48 kS/s');
 xlabel('Tempo (ms)');
 ylabel('Amplitude');
+legend([h_signal h_samples], 'Senoide', 'Amostras', ...
+    'Location', 'SouthEast');
 
 subplot(3,1,2);
-stem(t*1000, x2, '.');
+h_signal = plot(t_visual*1000, x2_visual, 'r-', 'LineWidth', 1.5);
+hold on;
+h_samples = stem(t*1000, x2, 'b.');
+hold off;
 grid on;
 xlim([0 0.5]);
 ylim([-1.2 1.2]);
 title('Senoide de 15 kHz amostrada a 48 kS/s');
 xlabel('Tempo (ms)');
 ylabel('Amplitude');
+legend([h_signal h_samples], 'Senoide', 'Amostras', ...
+    'Location', 'SouthEast');
 
 subplot(3,1,3);
-stem(t*1000, x3, '.');
+h_signal = plot(t_visual*1000, x3_visual, 'r-', 'LineWidth', 1.5);
+hold on;
+h_samples = stem(t*1000, x3, 'b.');
+hold off;
 grid on;
 xlim([0 0.5]);
 ylim([-1.2 1.2]);
 title('Senoide de 30 kHz: alias em 18 kHz');
 xlabel('Tempo (ms)');
 ylabel('Amplitude');
+legend([h_signal h_samples], 'Senoide', 'Amostras', ...
+    'Location', 'SouthEast');
 
 %% Verificacao automatica do aliasing
 max_error = max(abs(x3 - x_alias));
